@@ -6,7 +6,7 @@ const table = require('./table');
  * @returns {Object}
  */
 const commandExtractor = (data) => {
-  const command = data.command;
+  const command = data.cmd;
   const options = data.options;
   const target = data.target ? data.target : '';
   const isDry = data.dry ? true : false;
