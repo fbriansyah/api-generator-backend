@@ -5,7 +5,7 @@ const mysqlDB = require('promise-mysql');
 const { commands } = require('./command');
 
 const port = 3000
-const app_version = 'v0.1.0';
+const app_version = 'v0.2.1';
 const dbSetting = {
   user: "root",
   password: "",
