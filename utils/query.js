@@ -50,7 +50,42 @@ function genDefaultFields(opt) {
   return queryArr;
 }
 
+function isNumeric(str) {
+  if (typeof str != "string") return false // we only process strings!  
+  return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+    !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+}
+
+function checkData(value) {
+  if (isNumeric(value)) {
+    return ~value;
+  } else if (value === 'date_now') {
+    return 'NOW()'
+  } else {
+    return `'${value}'`
+  }
+}
+
+function genWhereString(where) {
+  if (where) {
+    const keys = Object.keys(where);
+    const conditions = keys.map(key => `${key} ${where[key]}`)
+
+    return `WHERE ${conditions.join(' AND ')}`;
+  } else {
+    return ``;
+  }
+}
+
+function objectToSetString(data) {
+  const keys = Object.keys(data);
+  return keys.map(key => `${key} = ${checkData(data[key])}`).join(',')
+}
+
 module.exports = {
   genCustomFields,
-  genDefaultFields
+  genDefaultFields,
+  checkData,
+  genWhereString,
+  objectToSetString
 }

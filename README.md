@@ -6,9 +6,11 @@ Untuk Frontend dibuat menggunakan Svelte dan TailwindCss.
 
 ### Create
 
+Creating new table
+
 ```json
 {
-  "command": "table:add",
+  "cmd": "t:add",
   "options": {
     "name": "users",
     "fields": ["name|varchar-60;nn;d='test'", "tanggal|datetime"],
@@ -33,21 +35,104 @@ Keterangan default:
 
 ### Delete
 
-````json
-{
-    "command": "table:del",
-    "options": {
-      "name": "users"
-    }
-}
+Delete table
 
-### Update
 ```json
 {
-    "command": "table:update",
-    "options": {
-      "target": "users",
-      "fields": []
-    }
+  "cmd": "t:del",
+  "target": "table name"
 }
-````
+```
+
+### Update
+
+Update table with alter.
+
+```json
+{
+  "cmd": "t:update",
+  "target": "users",
+  "options": {
+    "fields": []
+  }
+}
+```
+
+### List
+
+List all table in database;
+
+```json
+{
+  "cmd": "t:list"
+}
+```
+
+### Describe
+
+Describe database detail.
+
+```json
+{
+  "cmd": "t:describe",
+  "target": "users"
+}
+```
+
+## Data Commands
+
+Command untuk memanipulasi data dari sebuah table.
+
+### Select Data
+
+```json
+{
+  "cmd": "d:list",
+  "target": "users",
+  "dry": false,
+  "where": {
+    "id": "= 2"
+  }
+}
+```
+
+### Insert Data
+
+```json
+{
+  "cmd": "d:add",
+  "target": "users",
+  "dry": false,
+  "options": {
+    "tanggal": "date_now",
+    "name": "dummy"
+  }
+}
+```
+
+### Update Data
+
+```json
+{
+  "cmd": "d:update",
+  "target": "users",
+  "where": {
+    "id": "= 1"
+  },
+  "options": {
+    "tanggal": "date_now"
+  }
+}
+```
+
+### Delete Data
+
+```json
+{
+  "cmd": "d:update",
+  "target": "users",
+  "where": {
+    "id": "= 1"
+  }
+}
+```
