@@ -1,4 +1,5 @@
 const table = require('./table');
+const dataQ = require('./data');
 
 /**
  * Fungsi untuk mengextract data
@@ -31,6 +32,18 @@ const commandExtractor = (data) => {
       response.query = table.describe(target);
       break;
     case 't:update':
+      response.message = command;
+      break;
+    case 'd:list':
+      response.message = command;
+      break;
+    case 'd:add':
+      response.message = dataQ.add(target, options);
+      break;
+    case 'd:delete':
+      response.message = command;
+      break;
+    case 'd:update':
       response.message = command;
       break;
     default:
