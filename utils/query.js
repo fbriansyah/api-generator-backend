@@ -58,14 +58,28 @@ function isNumeric(str) {
 
 function checkData(value) {
   if (isNumeric(value)) {
-    return value;
+    return ~value;
+  } else if (value === 'date_now') {
+    return 'NOW()'
   } else {
     return `'${value}'`
+  }
+}
+
+function genWhereString(where) {
+  if (where) {
+    const keys = Object.keys(where);
+    const conditions = keys.map(key => `${key} ${where[key]}`)
+
+    return `WHERE ${conditions.join(' AND ')}`;
+  } else {
+    return ``;
   }
 }
 
 module.exports = {
   genCustomFields,
   genDefaultFields,
-  checkData
+  checkData,
+  genWhereString
 }

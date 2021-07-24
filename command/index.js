@@ -11,6 +11,8 @@ const commandExtractor = async (data, db) => {
   const options = data.options;
   const target = data.target ? data.target : '';
   const isDry = data.dry ? true : false;
+  const asObject = data.asObject ? true : false;
+  const where = data.where ? data.where : null;
 
   let response = {
     code: "00",
@@ -20,6 +22,7 @@ const commandExtractor = async (data, db) => {
   }
 
   switch (command) {
+    // table command
     case 't:add':
       response.query = table.add(options);
       break;
@@ -35,8 +38,9 @@ const commandExtractor = async (data, db) => {
     case 't:update':
       response.message = command;
       break;
+    // data command
     case 'd:list':
-      response.query = `SELECT * FROM ${target}`;
+      response.query = dataQ.list(target, where, options);
       break;
     case 'd:add':
       response.query = dataQ.add(target, options);
@@ -58,14 +62,19 @@ const commandExtractor = async (data, db) => {
     }
     const data = await db.query(response.query);
     if (Array.isArray(data)) {
-      response["fields"] = Object.keys(data[0]);
-      let rows = [];
-      data.forEach(dt => {
-        const cols = [];
-        response["fields"].forEach(key => cols.push(dt[key]))
-        rows.push(cols)
-      })
-      response["data"] = rows;
+      if (!asObject) {
+        response["fields"] = Object.keys(data[0]);
+        let rows = [];
+        data.forEach(dt => {
+          const cols = [];
+          response["fields"].forEach(key => cols.push(dt[key]))
+          rows.push(cols)
+        })
+        response["data"] = rows;
+      } else {
+        response["data"] = data;
+      }
+
     } else {
       response["data"] = data;
     }

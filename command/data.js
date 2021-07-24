@@ -10,9 +10,13 @@ function add(target, data) {
   return `INSERT INTO ${target}(${fields.join(',')}) VALUES(${values.join()})`;
 }
 
+function list(target, where, options) {
+  const whereString = query.genWhereString(where);
+  return `SELECT * FROM ${target} ${whereString}`
+}
+
 function del() { }
 
-function list() { }
 
 function update() { }
 
