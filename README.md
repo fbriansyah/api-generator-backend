@@ -6,9 +6,11 @@ Untuk Frontend dibuat menggunakan Svelte dan TailwindCss.
 
 ### Create
 
+Creating new table
+
 ```json
 {
-  "command": "table:add",
+  "cmd": "t:add",
   "options": {
     "name": "users",
     "fields": ["name|varchar-60;nn;d='test'", "tanggal|datetime"],
@@ -33,21 +35,46 @@ Keterangan default:
 
 ### Delete
 
-````json
-{
-    "command": "table:del",
-    "options": {
-      "name": "users"
-    }
-}
+Delete table
 
-### Update
 ```json
 {
-    "command": "table:update",
-    "options": {
-      "target": "users",
-      "fields": []
-    }
+  "cmd": "t:del",
+  "target": "table name"
 }
-````
+```
+
+### Update
+
+Update table with alter.
+
+```json
+{
+  "cmd": "t:update",
+  "target": "users",
+  "options": {
+    "fields": []
+  }
+}
+```
+
+### List
+
+List all table in database;
+
+```json
+{
+  "cmd": "t:list"
+}
+```
+
+### Describe
+
+Describe database detail.
+
+```json
+{
+  "cmd": "t:describe",
+  "target": "users"
+}
+```
