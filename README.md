@@ -78,3 +78,61 @@ Describe database detail.
   "target": "users"
 }
 ```
+
+## Data Commands
+
+Command untuk memanipulasi data dari sebuah table.
+
+### Select Data
+
+```json
+{
+  "cmd": "d:list",
+  "target": "users",
+  "dry": false,
+  "where": {
+    "id": "= 2"
+  }
+}
+```
+
+### Insert Data
+
+```json
+{
+  "cmd": "d:add",
+  "target": "users",
+  "dry": false,
+  "options": {
+    "tanggal": "date_now",
+    "name": "dummy"
+  }
+}
+```
+
+### Update Data
+
+```json
+{
+  "cmd": "d:update",
+  "target": "users",
+  "where": {
+    "id": "= 1"
+  },
+  "options": {
+    "tanggal": "date_now"
+  }
+}
+```
+
+### Delete Data
+
+```json
+{
+  "cmd": "d:update",
+  "target": "users",
+  "where": {
+    "id": "= 1"
+  }
+}
+```
