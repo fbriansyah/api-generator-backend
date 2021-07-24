@@ -54,7 +54,12 @@ const commandExtractor = async (data, db) => {
       response.query = dataQ.del(target, where);
       break;
     case 'd:update':
-      response.message = command;
+      if (!where || !options) {
+        response.code = "11";
+        response.message = "where and options is mandatory"
+        return response;
+      }
+      response.query = dataQ.update(target, options, where);
       break;
     default:
       response.message = "unknown command";

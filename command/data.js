@@ -21,7 +21,11 @@ function del(target, where) {
 }
 
 
-function update() { }
+function update(target, data, where) {
+  const whereString = query.genWhereString(where);
+  const setString = query.objectToSetString(data);
+  return `UPDATE ${target} SET ${setString} ${whereString}`
+}
 
 module.exports = {
   add, del, list, update

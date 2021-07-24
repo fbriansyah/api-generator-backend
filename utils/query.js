@@ -77,9 +77,15 @@ function genWhereString(where) {
   }
 }
 
+function objectToSetString(data) {
+  const keys = Object.keys(data);
+  return keys.map(key => `${key} = ${checkData(data[key])}`).join(',')
+}
+
 module.exports = {
   genCustomFields,
   genDefaultFields,
   checkData,
-  genWhereString
+  genWhereString,
+  objectToSetString
 }
