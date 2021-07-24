@@ -6,13 +6,14 @@ const dataQ = require('./data');
  * @param {Object} data data yang akan diextract
  * @returns {Object}
  */
-const commandExtractor = (data) => {
+const commandExtractor = async (data, db) => {
   const command = data.cmd;
   const options = data.options;
   const target = data.target ? data.target : '';
   const isDry = data.dry ? true : false;
 
   let response = {
+    code: "00",
     message: "",
     data: [],
     query: ""
@@ -35,10 +36,10 @@ const commandExtractor = (data) => {
       response.message = command;
       break;
     case 'd:list':
-      response.message = command;
+      response.query = `SELECT * FROM ${target}`;
       break;
     case 'd:add':
-      response.message = dataQ.add(target, options);
+      response.query = dataQ.add(target, options);
       break;
     case 'd:delete':
       response.message = command;
@@ -50,6 +51,29 @@ const commandExtractor = (data) => {
       response.message = "unknown command";
       break;
   }
+
+  try {
+    if (isDry) {
+      return response;
+    }
+    const data = await db.query(response.query);
+    if (Array.isArray(data)) {
+      response["fields"] = Object.keys(data[0]);
+      let rows = [];
+      data.forEach(dt => {
+        const cols = [];
+        response["fields"].forEach(key => cols.push(dt[key]))
+        rows.push(cols)
+      })
+      response["data"] = rows;
+    } else {
+      response["data"] = data;
+    }
+  } catch (e) {
+    response.code = e.code;
+    response.message = e.sqlMessage;
+  }
+
 
   if (!isDry) {
     delete response.query;

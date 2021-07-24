@@ -11,5 +11,7 @@
   "scripts": {
     "start": "node index.js"
   },
-  "dependencies": {}
+  "dependencies": {
+    "promise-mysql": "^5.0.3"
+  }
 }
