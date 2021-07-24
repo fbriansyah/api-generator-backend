@@ -15,7 +15,10 @@ function list(target, where, options) {
   return `SELECT * FROM ${target} ${whereString}`
 }
 
-function del() { }
+function del(target, where) {
+  const whereString = query.genWhereString(where);
+  return `DELETE FROM ${target} ${whereString}`
+}
 
 
 function update() { }
